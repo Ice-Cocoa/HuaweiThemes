@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Lockscreen version="1" frameRate="30" screenWidth="1152"  >
+    <Wallpaper/>
+  <!-- 用于“alert” 的适配屏幕宽度>
+  <!-- 这个变量用于获取放大比比率，图片原来尺寸810x744px-->
+
+
+  
+
+     <Var name="y_text" expression="#screen_height-(#screen_height/4)" type="number" const="true" />
+  	<Var name="magnify_rate" expression="#screen_width/1152" type="number" threshold="" persist="" index="" values="" const="true" />
+  	<!-- 图片，文字的底子  -->
+      <Image x="#screen_width/2"  y="#screen_height/2" pivotX="0" pivotY="0" align="center" alignV="center" src="emergency-bg-1152x600.png" w="#screen_width" h="600*#magnify_rate" />  
+  
+  	<!-- 图片，加入透明度变化动画，“特別警報発令”-->
+      <Image x="#screen_width/2"  y="#screen_height/2" pivotX="0" pivotY="0" align="center" alignV="center" src="emergency-text-1152x600.png" w="#screen_width" h="600*#magnify_rate" >
+        <!--“a"调整透明度数值,"time"调整间隔时间-->    
+        <!-- -！！注意！！：透明度动画内置了变化函数，不是一帧一帧的变化 -->
+        <AlphaAnimation repeat="0">
+            <Alpha a="255" time="100"/>
+            <Alpha a="255" time="100"/>          <!-- 从0~300ms，透明度平滑地由255变为150 --> 	
+            <Alpha a="100" time="500"/>	
+        </AlphaAnimation>      
+    </Image>              
+                
+       
+  
+   <!-- 加入循环平移文字试试看，“各勇者は状況に備えてください。特別警報が発令されました。”-->
+    	<!-- 图片，底子  -->
+<Image x="#screen_width/2"  y="#y_text" pivotX="0" pivotY="0" align="center" alignV="center" src="emergency-rolling-bg-1152x102.png" w="#screen_width" h="102*#magnify_rate" />   
+  	<!-- 滚动文字 48 字体合适 ;两段同样的文字便于实现循环滚动-->   
+
+  <Text x="0"  y="#screen_height-(#screen_height/4)"  
+        text="     各勇者は状況に備えてください。特別警報が発令されました。           各勇者は状況に備えてください。特別警報が発令されました。         各勇者は状況に備えてください。特別警報が発令されました。           各勇者は状況に備えてください。特別警報が発令されました。          各勇者は状況に備えてください。特別警報が発令されました。           各勇者は状況に備えてください。特別警報が発令されました。          各勇者は状況に備えてください。特別警報が発令されました。           各勇者は状況に備えてください。特別警報が発令されました。          各勇者は状況に備えてください。特別警報が発令されました。           各勇者は状況に備えてください。特別警報が発令されました。          各勇者は状況に備えてください。特別警報が発令されました。           各勇者は状況に備えてください。特別警報が発令されました。          各勇者は状況に備えてください。特別警報が発令されました。           各勇者は状況に備えてください。特別警報が発令されました。          各勇者は状況に備えてください。特別警報が発令されました。           各勇者は状況に備えてください。特別警報が発令されました。          各勇者は状況に備えてください。特別警報が発令されました。           各勇者は状況に備えてください。特別警報が発令されました。          各勇者は状況に備えてください。特別警報が発令されました。           各勇者は状況に備えてください。特別警報が発令されました。          "
+        
+        color="#fa2856" size="48" textalign="left"  align="left" alignV="center"  >  
+    <PositionAnimation repeat="0">
+        <Var name="y_in_text" expression="#screen_height-(#screen_height/4)" type="number" const="true" />
+        <Position x="0" y="#y_in_text" time="0"/>
+        <Position x="-20000" y="#y_in_text" time="200000"/>     
+    </PositionAnimation> 
+    </Text>
+    
+ 
+       
+            
+                   
+                               
+           
+  <!--   --------------------------    --->  
+    <Unlocker name="unlocker" bounceInitSpeed="2000" bounceAcceleration="3000">
+        <StartPoint x="0"  y="0" w="#screen_width" h="#screen_height" >
+        </StartPoint>
+        <EndPoint x="-1000"  y="-200-#screen_height" w="#screen_width+1000" h="#screen_height" >
+        </EndPoint>
+    </Unlocker>
+    <Image name="step_picture" x="27"  y="#screen_height-2160+2000" w="74" h="57" pivotX="0" pivotY="0" src="step_picture.png" align="left" alignV="top" >
+    </Image>
+    <Text name="step" x="150"  y="#screen_height-2160+2000" format="Step is: %d" paras="#steps_value" size="50" color="#FFFFFF"  />
+    <DateTime color="#FFFFFF" size="50" x="200"  y="700"  />
+    <Group name="clock_time_image">
+        <Image x="180"  y="400" w="100" h="200"   
+            src="time.png" srcid="int((#hour24)/10)" />
+        <Image x="310"  y="400" w="100" h="200"   
+                    src="time.png" srcid="int(#hour24%10)" />
+        <Image x="530"  y="400" w="100" h="200"   
+                    src="time.png" srcid="int(#minute/10)" />
+        <Image x="660"  y="400" w="100" h="200"   
+                    src="time.png" srcid="int(#minute%10)" />
+        <Image x="440"  y="400" w="60" h="200"  
+                    src="time_dot.png" />
+    </Group>
+</Lockscreen>
